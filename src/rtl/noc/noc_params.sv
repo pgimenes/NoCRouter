@@ -7,7 +7,7 @@ package noc_params;
 	localparam DEST_ADDR_SIZE_X = $clog2(MESH_SIZE_X); // == 7 (+1 bit for sign)
 	localparam DEST_ADDR_SIZE_Y = $clog2(MESH_SIZE_Y); // == 5 (+1 bit for sign)
 
-	localparam VC_NUM = 2;
+	localparam VC_NUM = 1;
 	localparam VC_SIZE = $clog2(VC_NUM);
 
 	// source X and Y coordinates included in payload
