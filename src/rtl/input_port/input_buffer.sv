@@ -43,7 +43,7 @@ module input_buffer #(
         .WRITE_DEPTH (BUFFER_SIZE),
         .READ_WIDTH  ($bits(noc_params::flit_novc_t)),
         .READ_DEPTH  (BUFFER_SIZE),
-        .BRAM_TYPE   ("ROUTER_FIFO")
+        .BRAM_TYPE   (1)
     ) circular_buffer (
         .core_clk       (clk),
         .resetn         (rst),
@@ -66,7 +66,7 @@ module input_buffer #(
     always_ff @(posedge clk, posedge rst) begin
 
         if (rst) begin
-            on_off_o <= '0;
+            on_off_o <= '1;
             
         end else begin
             on_off_o <= 
