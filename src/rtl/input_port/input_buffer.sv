@@ -46,7 +46,7 @@ module input_buffer #(
         .BRAM_TYPE   (1)
     ) circular_buffer (
         .core_clk       (clk),
-        .resetn         (rst),
+        .resetn         (!rst),
 
         .push           (write_cmd),
         .in_data        (data_i),
