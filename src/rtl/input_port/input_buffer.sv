@@ -3,23 +3,34 @@ import noc_params::*;
 module input_buffer #(
     parameter BUFFER_SIZE = 8
 )(
-    input flit_novc_t data_i,
-    input read_i,
-    input write_i,
-    input [VC_SIZE-1:0] vc_new_i,
-    input vc_valid_i,
-    input port_t out_port_i,
-    input rst,
     input clk,
+    input rst,
+
+    input write_i,
+    input flit_novc_t data_i,
+    
+    input read_i,
     output flit_t data_o,
+    
     output logic is_full_o,
     output logic is_empty_o,
-    output logic on_off_o,
-    output port_t out_port_o,
+
+    // VC allocation request
     output logic vc_request_o,
-    output logic switch_request_o,
-    output logic vc_allocatable_o,
+
+    // VC allocation response
+    input vc_valid_i,
+    input [VC_SIZE-1:0] vc_new_i,
     output logic [VC_SIZE-1:0] downstream_vc_o,
+
+    output logic vc_allocatable_o,
+    
+    output logic switch_request_o,
+    input port_t out_port_i,
+    output port_t out_port_o,
+
+    output logic on_off_o,
+
     output logic error_o
 );
 
@@ -36,50 +47,20 @@ module input_buffer #(
 
     port_t out_port_next;
 
-    logic [$clog2(BUFFER_SIZE):0] circular_buffer_count;
-
-    bram_fifo #(
-        .WRITE_WIDTH ($bits(noc_params::flit_novc_t)),
-        .WRITE_DEPTH (BUFFER_SIZE),
-        .READ_WIDTH  ($bits(noc_params::flit_novc_t)),
-        .READ_DEPTH  (BUFFER_SIZE),
-        .BRAM_TYPE   (1)
-    ) circular_buffer (
-        .core_clk       (clk),
-        .resetn         (!rst),
-
-        .push           (write_cmd),
-        .in_data        (data_i),
-        
-        .pop            (read_cmd),
-        .out_data       (read_flit),
-        
-        .count          (circular_buffer_count),
-        .full           (is_full_o),
-        .empty          (is_empty_o)
+    circular_buffer #(
+        .BUFFER_SIZE(BUFFER_SIZE)
+    )
+    circular_buffer (
+        .data_i(data_i),
+        .read_i(read_cmd),
+        .write_i(write_cmd),
+        .rst(rst),
+        .clk(clk),
+        .data_o(read_flit),
+        .is_full_o(is_full_o),
+        .is_empty_o(is_empty_o),
+        .on_off_o(on_off_o)
     );
-
-    // Replicate on/off behaviour (originally driven from circular buffer)
-    
-    localparam ON_OFF_LATENCY = 2;
-
-    always_ff @(posedge clk, posedge rst) begin
-
-        if (rst) begin
-            on_off_o <= '1;
-            
-        end else begin
-            on_off_o <= 
-                        // Decrementing FIFO
-                        !write_cmd && read_cmd && (circular_buffer_count < ON_OFF_LATENCY + 1) ? '1
-                        
-                        // Incrementing FIFO
-                        : write_cmd && !read_cmd && (circular_buffer_count > (BUFFER_SIZE - ON_OFF_LATENCY - 1)) ? '0
-                        
-                        : on_off_o;
-        end
-
-    end
 
     /*
     Sequential logic:
@@ -166,13 +147,14 @@ module input_buffer #(
 
             VA:
             begin
+                vc_request_o = 1;
+                
                 if(vc_valid_i)
                 begin
                     ss_next = SA;
                     downstream_vc_next = vc_new_i;
                 end
 
-                vc_request_o = 1;
                 if(write_i & (data_i.flit_label == BODY | data_i.flit_label == TAIL) & ~end_packet)
                 begin
                     write_cmd = 1;
