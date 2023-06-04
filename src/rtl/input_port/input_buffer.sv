@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module input_buffer #(
     parameter BUFFER_SIZE = 8

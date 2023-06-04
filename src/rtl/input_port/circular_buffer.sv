@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module circular_buffer #(
     parameter BUFFER_SIZE = 8

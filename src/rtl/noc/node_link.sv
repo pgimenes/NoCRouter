@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module node_link (
     router2router.upstream router_if_up,

@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 interface switch_allocator2crossbar;
 

@@ -1,4 +1,4 @@
-package noc_params;
+package noc_pkg;
 
 	// TO DO: parametrize from age pkg
 	localparam MESH_SIZE_X = 33; // == 65

@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module vc_allocator #(
 )(

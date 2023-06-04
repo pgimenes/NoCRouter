@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module separable_input_first_allocator #(
     parameter VC_NUM = 2

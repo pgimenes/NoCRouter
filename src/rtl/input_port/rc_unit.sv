@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module rc_unit #(
     parameter X_CURRENT = 0,

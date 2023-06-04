@@ -1,4 +1,4 @@
-import noc_params::*;
+import noc_pkg::*;
 
 module input_block #(
     parameter PORT_NUM = 5,
