@@ -2,7 +2,7 @@ package noc_pkg;
 
 	// Mesh parameters
 	parameter MAX_AGGREGATION_ROWS = 4;
-	parameter MAX_AGGREGATION_COLS = top_pkg::MAX_NODESLOT_COUNT/4;
+	parameter MAX_AGGREGATION_COLS = 8;
 	parameter MAX_AGC_COUNT = MAX_AGGREGATION_ROWS * MAX_AGGREGATION_COLS;
 	
 	parameter MAX_MESH_ROWS = MAX_AGGREGATION_ROWS + 1; // add row of aggregation managers
