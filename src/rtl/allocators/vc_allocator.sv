@@ -64,7 +64,7 @@ module vc_allocator #(
             begin
                 request_cmd[up_port][up_vc] = 1'b0;
                 ib_if.vc_valid[up_port][up_vc] = 1'b0;
-                ib_if.vc_new[up_port][up_vc] = {VC_SIZE{1'bx}};
+                ib_if.vc_new[up_port][up_vc] = '0;
             end
         end
 
@@ -111,7 +111,7 @@ module vc_allocator #(
     the downstream Input Port specified as a parameter.
     */
     function logic [VC_SIZE-1:0] assign_downstream_vc (input port_t port);
-        assign_downstream_vc = {VC_SIZE{1'bx}};
+        assign_downstream_vc = '0;
         for(int vc = 0; vc < VC_NUM; vc = vc + 1)
         begin
             if(is_available_vc[port][vc])

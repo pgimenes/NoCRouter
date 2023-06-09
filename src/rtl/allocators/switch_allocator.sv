@@ -40,7 +40,7 @@ module switch_allocator #(
         begin
             ib_if.valid_sel[port] = 1'b0;
             valid_flit_o[port] = 1'b0;
-            ib_if.vc_sel[port] = {VC_SIZE{1'b0}};
+            ib_if.vc_sel[port] = '0;
             xbar_if.input_vc_sel[port] = {PORT_SIZE{1'b0}};
             request_cmd[port]={VC_NUM{1'b0}};
         end
