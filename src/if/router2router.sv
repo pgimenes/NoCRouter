@@ -2,10 +2,10 @@ import noc_pkg::*;
 
 interface router2router;
 
-    flit_t data;
+    noc_pkg::flit_t data;
     logic is_valid;
-    logic [VC_NUM-1:0] is_on_off;
-    logic [VC_NUM-1:0] is_allocatable;
+    logic [noc_pkg::VC_NUM-1:0] is_on_off;
+    logic [noc_pkg::VC_NUM-1:0] is_allocatable;
 
     modport upstream (
         output data,
