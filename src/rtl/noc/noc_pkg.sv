@@ -1,8 +1,8 @@
 package noc_pkg;
 
 	// Mesh parameters
-	parameter MAX_AGGREGATION_ROWS = 4;
-	parameter MAX_AGGREGATION_COLS = 8;
+	parameter MAX_AGGREGATION_ROWS = 64;
+	parameter MAX_AGGREGATION_COLS = 64;
 	parameter MAX_AGC_COUNT = MAX_AGGREGATION_ROWS * MAX_AGGREGATION_COLS;
 	
 	parameter MAX_MESH_ROWS = MAX_AGGREGATION_ROWS + 1; // add row of aggregation managers
@@ -23,7 +23,7 @@ package noc_pkg;
 	localparam VC_SIZE = $clog2(VC_NUM);
 
 	// Flit contents
-	parameter PAYLOAD_DATA_WIDTH = 64;
+	parameter PAYLOAD_DATA_WIDTH = 512;
 	localparam HEAD_PAYLOAD_SIZE = PAYLOAD_DATA_WIDTH + DEST_ADDR_SIZE_X + DEST_ADDR_SIZE_Y;
 	localparam FLIT_DATA_SIZE = DEST_ADDR_SIZE_X + DEST_ADDR_SIZE_Y + HEAD_PAYLOAD_SIZE;
 
